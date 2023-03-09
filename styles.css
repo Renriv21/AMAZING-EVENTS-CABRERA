@@ -8,9 +8,9 @@
     background-color: aqua !important;
 }
 
-/*main {
+main {
     background-color: darkgray;
-    height: 100%;
-    width: 100%;
+    /* min-height: 80vh; */
 
-}*/
+
+}
