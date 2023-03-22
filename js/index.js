@@ -1,18 +1,19 @@
 const contenedorTarjetas = document.getElementById("contenedor");
 const checkboxes = document.querySelectorAll('input[name="categoria"]');
-
+let eventos = [];
 const apiURL = "https://mindhub-xj03.onrender.com/api/amazing";
 
 // FUNCION ASINCRONA
 async function getData() {
   let respuesta = await fetch(apiURL);
   let data = await respuesta.json();
-  let eventos = await data.events;
-  contenedorTarjetas.innerHTML = await crearTarjetas(eventos);
+  eventos = data.events;
+
+  contenedorTarjetas.innerHTML = crearTarjetas(eventos);
 }
 getData();
-
 function crearTarjetas(arrayData) {
+  console.log(arrayData);
   let tarjetas = "";
   for (const event of arrayData) {
     tarjetas += `
@@ -56,11 +57,11 @@ function actualizarTarjetas() {
     .map((checkbox) => checkbox.id);
 
   const eventosFiltrados = filtrarPorCategoria(
-    Events.events,
+    eventos,
     categoriasSeleccionadas
   );
-
-  contenedorTarjetas.innerHTML = crearTarjetas({ events: eventosFiltrados });
+  console.log(eventosFiltrados);
+  contenedorTarjetas.innerHTML = crearTarjetas(eventosFiltrados);
 }
 
 function buscarEvento() {
