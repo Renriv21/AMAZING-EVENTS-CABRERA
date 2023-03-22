@@ -1,9 +1,20 @@
 const contenedorTarjetas = document.getElementById("contenedor");
 const checkboxes = document.querySelectorAll('input[name="categoria"]');
 
+const apiURL = "https://mindhub-xj03.onrender.com/api/amazing";
+
+// FUNCION ASINCRONA
+async function getData() {
+  let respuesta = await fetch(apiURL);
+  let data = await respuesta.json();
+  let eventos = await data.events;
+  contenedorTarjetas.innerHTML = await crearTarjetas(eventos);
+}
+getData();
+
 function crearTarjetas(arrayData) {
   let tarjetas = "";
-  for (const event of arrayData.events) {
+  for (const event of arrayData) {
     tarjetas += `
             <div class="col" id="event-${event._id}">
                 <div class="card h-100 shadow p-3 mb-5 bg-body-tertiary rounded">
@@ -27,8 +38,6 @@ function crearTarjetas(arrayData) {
 
   return tarjetas;
 }
-
-contenedorTarjetas.innerHTML = crearTarjetas(Events);
 
 function filtrarPorCategoria(eventos, categorias) {
   if (categorias.length === 0) {
@@ -81,13 +90,12 @@ function buscarEvento() {
       tarjeta.style.display = "none";
     }
   }
-
   if (resultadosEncontrados === 0) {
     const contenedorTarjetas = document.getElementById("contenedor");
     contenedorTarjetas.innerHTML = `
         <div class="home w-100">
         <p class="mt-4 fs-1 fw-bold">Not Found </p>
-        <img class="inline-block" src="https://cdn.discordapp.com/attachments/1066019385652822147/1083253573632147516/AmazingNotFound.png">
+        <img class="inline-block w-50" src="/assets/AmazingNotFound.png">
  
         </div>
  

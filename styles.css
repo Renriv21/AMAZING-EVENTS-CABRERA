@@ -14,3 +14,13 @@ main {
 
 
 }
+
+body {
+    background-color: coral;
+
+}
+
+#contenedor img {
+    object-fit: cover;
+    height: 300px;
+}

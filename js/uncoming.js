@@ -1,11 +1,23 @@
 const contenedorTarjetas = document.getElementById("contenedor");
 const checkboxes = document.querySelectorAll('input[name="categoria"]');
 
+const apiURL = "https://mindhub-xj03.onrender.com/api/amazing";
+
+// FUNCION ASINCRONA
+async function getData() {
+  let respuesta = await fetch(apiURL);
+  let data = await respuesta.json();
+  let eventos = await data.events;
+  const currentDate = await data.currentDate;
+  const upEvents = await eventos.filter((e) => e.date >= currentDate); //Filtra los eventos futuros
+  contenedorTarjetas.innerHTML = await crearTarjetas(upEvents);
+}
+getData();
+
 function crearTarjetas(arrayData) {
   let tarjetas = "";
-  for (const event of arrayData.events) {
-    if (event.date > currentDate) {
-      tarjetas += `
+  for (const event of arrayData) {
+    tarjetas += `
             <div class="col" id="event-${event._id}">
                 <div class="card h-100 shadow p-3 mb-5 bg-body-tertiary rounded">
                     <img src="${event.image}" class="card-img-top" alt="card">
@@ -24,13 +36,9 @@ function crearTarjetas(arrayData) {
                 </div>
             </div>
         `;
-    }
   }
-
   return tarjetas;
 }
-
-contenedorTarjetas.innerHTML = crearTarjetas(Events);
 
 function filtrarPorCategoria(eventos, categorias) {
   if (categorias.length === 0) {
@@ -89,7 +97,7 @@ function buscarEvento() {
     contenedorTarjetas.innerHTML = `
         <div class="home w-100">
         <p class="mt-4 fs-1 fw-bold">Not Found </p>
-        <img class="inline-block" src="../assets/3828537.jpg">
+        <img class="inline-block w-50" src="/assets/AmazingNotFound.png">
  
         </div>
  
